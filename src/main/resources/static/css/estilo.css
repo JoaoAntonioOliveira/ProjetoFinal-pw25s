@@ -1,0 +1,172 @@
+.conteudos{
+    background-color: #15181f;
+    margin-bottom: 10px;
+}
+
+.fundo-branco{
+	background-color: #ffffff !important;
+}
+
+ul{
+    text-decoration:none;
+}
+
+li{
+    list-style-type: none;
+}
+
+.text-preco {
+    color: #ff0000 !important;
+}
+
+.btn-menu {
+    color: rgb(116, 119, 116);
+    background-color: #4c4d4b;
+    border-color: #ffffff;
+}
+
+.btn-menu:hover {
+    color: #ffffff;
+    background-color: #5e5d5f;
+    border-color: #ffffff;
+
+}
+
+.btn-menu:focus, .btn-menu.focus {
+    box-shadow: 0 0 0 0.0rem rgba(9, 255, 0, 0.5);
+}
+
+.btn-menu.disabled, .btn-menu:disabled {
+    color: #04ff04;
+    background-color: transparent;
+}
+
+.dropdown-menu{
+    background-color: #3d3d3d;
+}
+
+.btn-outline-comprar {
+    color: #000000;
+    background-color: #2ffa14;
+    font-weight: bold;
+}
+
+.btn-outline-comprar:hover {
+    color: rgb(30, 255, 0);
+    background-color: #2c2b2e;
+}
+
+.rodPrincipal{
+    color: #fff;
+    padding: 3px;
+    margin-left: 10px;
+}
+
+.rodPrincipal ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.rodPrincipal a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 12px;
+}
+
+.rod_description {
+    bottom: 0;
+    padding-bottom: 5px;
+    text-align: center;
+    width: 100%;
+    background-color: #2b2b2b;
+}
+
+.rod_description a{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.rod_description a:hover{
+    color: rgb(43, 255, 0);
+    text-decoration: none;
+}
+
+.rod_descriptiona {
+    color: #FFFFFF;
+    display: block;
+    font-family: 'Roboto';
+    font-size: 17px;
+    text-decoration: none;
+    padding-top: -30px;
+}
+
+.produtos{
+    background-color: #f6f9ff;
+}
+
+.text-item {
+    color: #000000 !important;
+}
+
+.padding-col{
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 7px;
+}
+
+.icon-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+a{
+    color: #5e5e5e;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #42464d;
+}
+
+.gridMenu{
+    padding: 8px 16px;
+    float: left;
+    width: auto;
+    border: none;
+    display: block;
+}
+
+.verticalLine {
+    width: 2px;
+    height: 100%;
+    background: #585e68;
+}
+
+.frames{
+    padding: 3%;
+    margin: 0 0 20px;
+    border-radius: 5px;
+    border: #232125 solid 1px !important;
+}
+
+legend{
+    color: #000000;
+}
+
+fieldset{
+    border:#000000 solid 1px !important;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+    background-color: #242424;
+}
+
+#fotos img:hover{
+    cursor: pointer !important;
+}
+.negrito{
+    font-weight: bold !important;
+}
