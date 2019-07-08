@@ -8,10 +8,10 @@
 <body>
 	<section layout:fragment="conteudo">
 	<div class="fundo-branco rounded">
-		<div class="page-header">
+		<div class="page-header ml-3">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-xs-8">
+					<div class="col-xs-8 mt-3">
 						<h2>Lista de Produtos</h2>
 					</div>
 				</div>
@@ -48,14 +48,14 @@
 					<tbody>
 						<tr th:id="'row_' + ${produto.id}" th:each="produto: ${list.content}">
 							<td style="width:150px" class="text-center" th:text="${produto.id}">0</td>
-							<td><a th:href="'javascript:edit(\'/produto/ajax/' + ${produto.id} + '\');'"
+							<td><a th:href="'javascript:editProduto(\'/produto/ajax/' + ${produto.id} + '\');'"
 								th:text="${produto.nome}">...</a></td>
 							<td style="width:150px" class="text-center" th:text="${produto.valor}">0</td>
 							<td style="width:150px" class="text-center" th:text="${produto.categoria.nome}">0</td>
 							<td style="width:150px" class="text-center" th:text="${produto.marca.nome}">0</td>
 
 							<td style="width:200px" class="text-center">
-								<a th:href="'javascript:edit(\'/produto/ajax/' + ${produto.id} + '\');'" 	
+								<a th:href="'javascript:editProduto(\'/produto/ajax/' + ${produto.id} + '\');'" 	
 									class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i>
 								</a> &nbsp;
 								<a th:href="'javascript:remove('+ ${produto.id} +',\'/produto\');'"
@@ -91,7 +91,8 @@
 					<div class="modal-body">
 						<form id="frm" name="frm"
 						method="POST" class="form-vertical" 
-						th:action="@{/produto/ajax}">
+						th:action="@{/produto/upload}"
+						enctype="multipart/form-data">
 							
 							<input type="hidden" id="id" name="id"/>
 							<div class="form-group">
@@ -130,19 +131,26 @@
 										th:text="${marca.nome}"></option>
 								</select>
 							</div>
+							
+							<!-- Imagem -->
+							<div class="form-group">
+								<label for="anexos">Várias imagens:</label>
+								<input type="file" name="anexos" id="anexos"
+								multiple
+								required class="form-control"/>
+							</div>
 						</form>
 					</div><!-- modal-body -->
 					<div class="modal-footer">
 						<button type="button" class="btn" data-dismiss="modal"
 							aria-hidden="true">Cancelar</button>
 							<button type="button" class="btn btn-success"
-								onClick="save('/produto/page')">Salvar</button>
+								onClick="saveUpload('/produto/page')">Salvar</button>
 					</div><!-- modal-footer -->
 				</div><!-- modal-content -->
 			</div><!-- modal-dialog -->
 		</div><!-- modal-form -->
 	</div>
 	</section>
-    <script type="text/javascript" th:src="@{/js/crud-produto.js}"></script>
 </body>
 </html>

@@ -1,13 +1,12 @@
-function comprar() {
-    var valor = parseFloat($(".produtos #preco")[0].innerHTML.replace(",", "."));
-    var quant = $(".produtos #qtde").val();
-
+function comprar(idProd) {
+	var quant = $("#qtde").val();
+    debugger;
     var jason = new Object();
-    jason.Valor = valor;
+    jason.IdProd = idProd;
     jason.Qtde = quant;
     var str = JSON.stringify(jason);
-    localStorage.removeItem("Pedido");
+//    localStorage.removeItem("Pedido");
     localStorage.setItem("Pedido", str);
-    location.href = "frete.html";
+//    location.href = "";
 }
 

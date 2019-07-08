@@ -56,8 +56,8 @@ public class Produto implements Serializable{
 	@JoinColumn(name = "marca_id", referencedColumnName = "id")
 	private Marca marca;
 	
-//	@Column(name = "imagem", length = 100, nullable = true)
-//	private String imagem;
+	@Column(name = "imagem", length = 100, nullable = true)
+	private String imagem;
 	
 }
 

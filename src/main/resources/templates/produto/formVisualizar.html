@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout-padrao}">
+<head>
+	<script type="text/javascript" th:src="@{/vendors/jquery/jquery.js}"></script>
+	<script type="text/javascript" th:src="@{/js/scriptProduto.js}"></script>
+</head>
+<body>
+	<section layout:fragment="conteudo">
+	<!-- Fundo branco -->	
+	<div class="fundo-branco rounded container-fluid">
+		<div class="page-header ml-3">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-8 mt-3">
+						<h2>Visualização de Produtos</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4 mb-3">
+						<a class="btn btn-primary" th:href="@{/produto/pageComprar}"> 
+							<i class="fa fa-table"></i> Lista de Produtos
+						</a>
+					</div>
+				</div>		
+			</div>
+		</div>
+		 
+		 <div class="row justify-content-center w-100 ml-2">
+			<!-- FOTO -->
+	        <div class="card w-auto col-md-6" id="fotos-produto">
+	
+	            <div class="card-body">
+	                <div class="bg-transparent" id="container-foto">
+	                    <img class="" id="foto-grande" width="450" height="450">
+	                </div>
+	            </div>
+	        </div>
+	        <!-- FIM FOTO -->
+	        
+	        <div class="card w-auto border-left" id="infos-produto">
+		        <div class="ml-3">
+		                <h1 th:text="${produto.nome}" th:produtoId="${produto.id}"></h1>
+		
+		                <ul class="list-inline mt-0" id="ul-rating">
+		                    <li class="list-inline-item">
+		                        <h4 th:text="${produto.marca.nome}"></h4>
+		                    </li>
+		                    
+		                </ul>
+		                
+		                <div>
+		                    <h1 th:text="'R$ '+${produto.valor}"
+		                        th:prodPrice="${produto.valor}"></h1>
+		
+		                    <div class="form-group row">
+		                        <div class="form-group d-inline-flex col-lg-4">
+			                           <div class="input-group-prepend">
+			                               <label class="input-group-text text-light" id="qtdeLabel" style="background-color: #2c2c2c;" for="qtde">Quantos*</label>
+			                           </div>
+			                           <input type="number" name="qtde" id="qtde" class="form-control" value="1">
+		                        </div>
+		                        <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+		                            <a class="btn btn-menu text-white" th:href="'javascript:comprar(\'${produto.id}\');'">
+		                          	  <i>Adicionar ao carrinho</i>
+		                            </a>
+		                        </div>
+		                    </div>
+	                	</div>
+		        </div>
+	        </div>
+		</div>
+		<div class="m-4">
+                <div class="mt-2 tab-content" id="myTabContent">
+                    <div class="ml-1 tab-pane fade show active" id="desc" role="tabpanel" aria-labelledby="desc-tab">
+                    	<div class="col-xs-8 mt-3">
+							<h2>Descrição do Produto:</h2>
+						</div>
+                        <h5 style="word-wrap: break-word" th:text="${produto.descricao}"> </h5>
+                    </div>
+                </div>  
+        </div>      
+		</div><!-- DIV conteudo produto -->
+		<script type="text/javascript" th:src="@{/js/script.js}"></script>
+	</section>
+</body>
+</html>

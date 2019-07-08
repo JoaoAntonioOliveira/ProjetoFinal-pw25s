@@ -18,16 +18,16 @@
 <link rel="stylesheet" th:href="@{/css/estilo.css}" />
 <link rel="stylesheet" th:href="@{/vendors/sweetalert/sweetalert.css}" />
 <link rel="stylesheet" th:href="@{/vendors/bootstrap-datepicker/css/bootstrap-datepicker.min.css}" />
-<link type="text/css" rel="stylesheet" href="bootstrap4/css/bootstrap.css">
-<link type="text/css" rel="stylesheet" href="css/estilo.css">
+<link rel="stylesheet" th:href="@{/bootstrap4/css/bootstrap.css}">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
 	<header>
         <div class="container conteudos rounded-bottom">
-            <div class="d-flex pt-3 row">
-                <div class="pl-3 d-flex col-lg-1">
+            <div class="d-flex pt-2 row">
+                <div class="pl-3 d-flex col-lg-1 mb-2">
                     <a th:href="@{/home}">
                         <img src="/img/Logo.png" class="w-100 h-auto">
                     </a>
@@ -40,7 +40,7 @@
                                     <a class="nav-link btn-menu rounded-left" th:href="@{/home}">Início</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle btn-menu" href="#" role="menu" data-toggle="dropdown">Cadastros</a>
+                                    <a class="nav-link dropdown-toggle btn-menu" href="#" role="menu" data-toggle="dropdown" sec:authorize="hasRole('ROLE_ADMIN')">Cadastro</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li class="nav-item">
                                             <a class="dropdown-item btn-menu" th:href="@{/categoria/page}">Categoria</a>
@@ -51,28 +51,32 @@
                                         <li class="nav-item">
                                             <a class="dropdown-item btn-menu" th:href="@{/produto/page}">Produtos</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item btn-menu" th:href="@{/fornecedor/page}">Fornecedores</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle btn-menu" href="#" role="menu" data-toggle="dropdown">Teclados</a>
+                                    <a class="nav-link dropdown-toggle btn-menu" href="#" role="menu" data-toggle="dropdown">Compras</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li class="nav-item">
-                                            <a class="dropdown-item btn-menu" href="#">Teclado Mecanico</a>
+                                            <a class="dropdown-item btn-menu" th:href="@{/compra/page}" sec:authorize="hasRole('ROLE_ADMIN')">Compras Fornecedor</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="dropdown-item btn-menu" href="#">Teclado Semi-Mecanico</a>
+                                            <a class="dropdown-item btn-menu" th:href="@{/marca/page}">Minhas Compras</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="dropdown-item btn-menu" href="#">Teclado Infantil</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="dropdown-item btn-menu" href="#">Outros</a>
+                                            <a class="dropdown-item btn-menu" th:href="@{/produto/pageComprar}">Comprar</a>
                                         </li>
                                     </ul>
                                 </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link btn-menu rounded-right" href="#">Contato</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle btn-menu" href="#" role="menu" data-toggle="dropdown" sec:authorize="hasRole('ROLE_ADMIN')">Usuário</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li class="nav-item">
+                                            <a class="dropdown-item btn-menu" th:href="@{/usuario/page}">Usuários</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                             <form class="form-inline ml-3" action="">
@@ -86,30 +90,130 @@
                 </div>
                 <div class="d-flex col-lg-4">
                     <form class="form-inline carrinho" action="">
-                        <a class="mr-4 text-light" href="login.html">Entrar</a>
-                        <a class="mr-4 text-light" href="cadastro.html">Cadastrar-se</a>
                         <button class="btn btn-outline-comprar" type="submit">
                             <i class="fa fa-cart-plus">Carrinho</i>
                         </button>
+                        <a th:href="@{/logout}" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i> Sair</a>
                     </form>
                 </div>
+                
+				<div class="d-flex ml-3" id="usuario">				
+					Usuário Logado: <span class="d-flex col-lg-4" sec:authentication="name">
+						aqui está o usuário logado
+					</span>
+				</div>
             </div>
         </div>
     </header>
-
-	<section class="ut-layout-content container conteudos mt-3 pt-3 pb-3 rounded" layout:fragment="conteudo">
+    
+    <section class="ut-layout-content container conteudos mt-3 pt-3 pb-3 rounded" layout:fragment="conteudo">
 		As páginas serão carregadas aqui...
 	</section>
+    
+    <!--Informações loja-->
+    <div class="container conteudos pt-3 pb-3 rounded" sec:authorize="hasRole('ROLE_USER')">
+        <div class="row d-flex">
+            <div class="rodPrincipal d-flex-inline">
+                <h6>A LOJA</h6>
+                <ul class="mb-3">
+                    <li>
+                        <a href="#">> Quem Somos</a>
+                    </li>
+                    <li>
+                        <a href="#">> Nossa História</a>
+                    </li>
+                </ul>
+                <h6>MINHA CONTA</h6>
+                <ul>
+                    <li>
+                        <a href="#">> Meus Itens</a>
+                    </li>
+                    <li>
+                        <a href="#">> Cadastrar / Remover Conta</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="rodPrincipal d-flex-inline">
+                <h6>POLÍTICAS DE PRIVACIDADE</h6>
+                <ul>
+                    <li>
+                        <a href="#">> Privacidade e Segurança</a>
+                    </li>
+                    <li>
+                        <a href="#">> Políticas da Loja</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="rodPrincipal d-flex-inline">
+                <h6>ATENDIMENTO</h6>
+                <ul>
+                    <li>
+                        <a href="#">> Contato</a>
+                    </li>
+                    <li>
+                        <a href="#">> Elogios/Sujestões de melhorias</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!--Formas de Pagamento-->
+            <div class="rodPrincipal ml-3 d-flex-inline">
+                <h5 class="mb-3">Formas de Pagamento</h5>
+
+                <div class="d-flex">
+                    <div class="mr-3 d-flex-inline">
+                        <h6>Crédito</h6>
+                        <div class="d-flex">
+                            <img class="mr-1" src="/img/Pagamento/band_visa.png">
+                            <img class="mr-1" src="/img/Pagamento/band_master.png">
+                            <img class="mr-1" src="/img/Pagamento/band_elo.png">
+                        </div>
+                    </div>
+                    <div class="mr-3 d-flex-inline">
+                        <h6>Débito</h6>
+                        <div class="d-flex">
+                            <img class="mr-1" src="/img/Pagamento/band_bb.png">
+                            <img class="mr-1" src="/img/Pagamento/band_itau.png">
+                        </div>
+                    </div>
+                    <div class="mr-3 d-flex-inline">
+                        <h6>Boleto</h6>
+                        <div class="d-flex">
+                            <img class="mr-1" src="/img/Pagamento/band_boleto.png">
+                        </div>
+                    </div>
+                    <div class="mr-3 d-flex-inline">
+                        <h6>Eletrônica</h6>
+                        <div class="d-flex">
+                            <img class="mr-1" src="/img/Pagamento/band_paypal.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="rod_description mt-2 mb-1 pt-3">
+        <div class="clear"></div>
+        <div class="rod_description">
+            <p class="text-light text-center">A Loja do João é uma revenda Razer Autorizada
+                <a href="https://www.razer.com/">www.razer.com</a> | CNPJ: 98.765.432/0001-00 | Todos os direitos reservados.</p>
+        </div>
+    </footer>
 	
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     
-    <script th:src="@{/js/jquery-3.1.0.min.js}	" type="text/javascript"></script>
+    <script th:src="@{/js/jquery-3.1.0.min.js}" type="text/javascript"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js" type="text/javascript"></script>
     <script th:src="@{/js/jquery.mask.js}" type="text/javascript"></script>
     <script type="text/javascript" th:src="@{/js/frete.js}"></script>
-    <script type="text/javascript" th:src="@{/js/validator.js}"></script>
-    <script type="text/javascript" th:src="@{/js/mascaras.js}"></script>
+    
+    <script type="text/javascript" th:src="@{/js/crud-produto.js}"></script>
     
     <script type="text/javascript" th:src="@{/js/crud.js}"></script>
 	<script type="text/javascript" th:src="@{/vendors/jquery/jquery.js}"></script>
@@ -122,5 +226,6 @@
 			autoclose:true
 		});
 	</script>
+	<script type="text/javascript" th:src="@{/js/compra.js}"></script>
 </body>
 </html>

@@ -3,6 +3,10 @@
     margin-bottom: 10px;
 }
 
+#usuario{
+	color: #ffffff!important;	
+}
+
 .fundo-branco{
 	background-color: #ffffff !important;
 }
@@ -42,7 +46,7 @@ li{
 }
 
 .dropdown-menu{
-    background-color: #3d3d3d;
+    background-color: #6f6f6f !important;
 }
 
 .btn-outline-comprar {

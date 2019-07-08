@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout-padrao}">
+<head>
+</head>
+
+<body>
+	<section layout:fragment="conteudo">
+		<div class="fundo-branco rounded">
+			<div class="page-header ml-3">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-8">
+							<h2>Cadastrar Compra</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<a class="btn btn-primary" th:href="@{/compra/page}"> 
+								<i class="fa fa-table"></i> Lista de Compra
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<div class="container-fluid">
+				<div class="row">
+			
+					<div class="col-4">
+		                <label for="dataCompra">Data de Compra*</label>
+		                <input type="text" class="form-control datepicker" id="dataCompra" name="dataCompra"
+		                       autocomplete="off"/>
+		    	  	</div>
+		
+		
+		            <div class="col-4">
+		                <label for="fornecedor">Fornecedor*</label>
+		                <select id="fornecedor" name="fornecedor" class="form-control">
+		                    <option value="">Selecione</option>
+		                    <option th:each="fornecedor : ${fornecedores}"
+		                            th:value="${fornecedor.id}"
+		                            th:text="${fornecedor.nome}"></option>
+		                </select>
+		            </div>
+		
+		            <div class="col-4">
+		                <label for="usuarioCompra">Usuario*</label>
+		                <select id="usuarioCompra" name="usuarioCompra" class="form-control">
+		                    <option value="">Selecione</option>
+		                    <option th:each="usuario : ${usuarios}"
+		                            th:value="${usuario.id}"
+		                            th:text="${usuario.nome}"></option>
+		                </select>
+		            </div>
+				</div>
+				
+				<div class="row">
+		            <div class="col-3 my-3">
+		                <a class="btn btn-primary text-white" data-toggle="modal" data-target="#modal-produto">
+		                    <i class="fa fa-plus-square"></i> Adicionar Produto
+		                </a>
+		            </div>
+		        </div>
+		
+		        <div class="row">
+		            <div class="col-3">
+		                <label for="totalPreco">Total</label>
+		                <input type="text" value="0.00" class="form-control" id="totalPreco" name="totalPreco" disabled/>
+		            </div>
+		        </div>
+		
+			
+				<div class="row">
+		            <div class="col-1 my-3">
+		                <button class="btn  btn-success text-brown" onclick="saveCompra()">
+		                    <i class="fa fa-save"></i> Salvar
+		                </button>
+		            </div>
+      	 		</div>
+		</div>
+	</div>
+		
+		<!--MODAL PRODUTO-->
+	    <div class="modal modal-form h-100" th:id="modal-produto">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <h3>Produto</h3>
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="ture">x</button>
+	                </div><!--modal header-->
+	                <div class="modal-body">
+	                    <div class="container-fluid">
+	                        <label for="produto">Produto*</label>
+	                        <select id="produto" name="produto" class="form-control">
+	                            <option value="">Selecione</option>
+	                            <option th:each="produto: ${produtos}"
+	                                    th:value="${produto.id}"
+	                                    th:text="${produto.nome}"
+	                                    th:precoProduto="${produto.valor}"
+	                            ></option>
+	                        </select>
+	
+	                        <label for="quantidade">Quantidade</label>
+	                        <input type="number" class="form-control" id="quantidade" name="quantidade" step="0.1"
+	                               max="100" min="0.1"/>
+	
+	                        <label for="totalProdutoPreco">Total:</label>
+	                        <input type="text" class="form-control" id="totalProdutoPreco"
+	                               name="totalProdutoPreco" disabled/>
+	
+	                    </div>
+	                </div> <!--modal body-->
+	                <div class="modal-footer">
+	                    <button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">
+	                        <i class="fa fa-cancel"></i> Cancelar
+	                    </button>
+	                    <button class="btn btn-success" type="button" onClick="addCompraProduto()">
+	                        <i class="fa fa-save"></i> Salvar
+	                    </button>
+	                </div>
+	            </div> <!--modal content-->
+	        </div> <!-- modal dialog-->
+	    </div> <!--FIM MODAL PRODUTO-->
+			
+	</section>
+</body>
+</html>
