@@ -1,3 +1,7 @@
+fieldset{
+	border: none !important;
+}
+
 .conteudos{
     background-color: #15181f;
     margin-bottom: 10px;
@@ -158,10 +162,6 @@ a:hover{
 
 legend{
     color: #000000;
-}
-
-fieldset{
-    border:#000000 solid 1px !important;
 }
 
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{

@@ -155,21 +155,19 @@ public class ProdutoController extends CrudController<Produto, Long>{
     public ResponseEntity<?> getProductImages(HttpServletRequest request,
                                               @PathVariable Long produtoId
     ) {
-
-        File dir = new File("C:\\trabalhoFinal\\imagens\\");
-        List<File> files = Arrays.asList(dir.listFiles());
-
         List<byte[]> imagem = new ArrayList<>();
 
-        for (File file : files) {
-            if (file.getName().subSequence(0, produtoId.toString().length()).equals(produtoId.toString())) {
+        Produto produto = getService().findOne(produtoId);
+        File file = new File(produto.getImagem());
+        
+           	if (produto != null) {
                 try {
                     imagem.add(Files.readAllBytes(file.toPath()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }
+
 
 
         return new ResponseEntity<>(imagem, HttpStatus.OK);
@@ -184,16 +182,16 @@ public class ProdutoController extends CrudController<Produto, Long>{
 		if(result.hasErrors()) {
 			return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 		}
-		getService().save(entity);
+		Produto p = getService().save(entity);
 		
 		if(anexos.length > 0 && !anexos[0].getOriginalFilename().isEmpty()) {
-			saveFile(entity.getId(), anexos, request);
+			saveFile(entity.getId(), anexos, request, p);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
 
-	private void saveFile(Long id, MultipartFile[] anexos, HttpServletRequest request) {
+	private void saveFile(Long id, MultipartFile[] anexos, HttpServletRequest request, Produto produto) {
 		// TODO Auto-generated method stub
 		File dir = new File("C:\\trabalhoFinal\\imagens\\");
 		if(!dir.exists()) { //verifica se o diretorio de armazenamento existe
@@ -218,6 +216,9 @@ public class ProdutoController extends CrudController<Produto, Long>{
 				BufferedOutputStream stream = new BufferedOutputStream(fileOut);
 				stream.write(anexo.getBytes());
 				stream.close();
+
+				produto.setImagem(caminhoAnexo + nomeArquivo);
+				getService().save(produto);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
