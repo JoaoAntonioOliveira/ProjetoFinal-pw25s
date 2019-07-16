@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.utfpr.pb.ecommerce.Ecommerce.model.Produto;
+import br.edu.utfpr.pb.ecommerce.Ecommerce.repository.ProdutoRepository;
 import br.edu.utfpr.pb.ecommerce.Ecommerce.service.CategoriaService;
 import br.edu.utfpr.pb.ecommerce.Ecommerce.service.CrudService;
 import br.edu.utfpr.pb.ecommerce.Ecommerce.service.MarcaService;
@@ -43,6 +43,9 @@ public class ProdutoController extends CrudController<Produto, Long>{
 
 	@Autowired
 	private ProdutoService produtoService;
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
 	@Autowired
 	private CategoriaService categoriaService;
@@ -114,6 +117,60 @@ public class ProdutoController extends CrudController<Produto, Long>{
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/list");
 		modelAndView.addObject("list", list);
 
+		modelAndView.addObject("categorias", categoriaService.findAll());
+		modelAndView.addObject("marcas", marcaService.findAll());
+		
+		if(list.getTotalPages()>0) {
+			List<Integer> pageNumbers = IntStream
+					.rangeClosed(1, list.getTotalPages())
+					.boxed().collect(Collectors.toList());
+			modelAndView.addObject("pageNumbers", pageNumbers);
+		}
+		return modelAndView;
+	}
+	
+	@GetMapping("pageNome")
+	public ModelAndView listProdutos(@RequestParam("pesquisa") String pesquisa, @RequestParam("page") Optional<Integer> page,
+			 @RequestParam("size") Optional<Integer> size) {
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(5);
+		
+		Page<Produto> list = null;
+		
+		list = produtoService.findAllByNomeLike(pesquisa +"%", PageRequest.of(currentPage -1, pageSize));
+		
+		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/listComprar");
+		modelAndView.addObject("list", list);
+		
+		modelAndView.addObject("categorias", categoriaService.findAll());
+		modelAndView.addObject("marcas", marcaService.findAll());
+		
+		if(list.getTotalPages()>0) {
+			List<Integer> pageNumbers = IntStream
+					.rangeClosed(1, list.getTotalPages())
+					.boxed().collect(Collectors.toList());
+			modelAndView.addObject("pageNumbers", pageNumbers);
+		}
+		return modelAndView;
+	}
+	
+	@GetMapping("pageCategoria")
+	public ModelAndView listCategoria(@RequestParam("filtro") Optional<Integer> filtro, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size) {
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(5);
+		
+		Page<Produto> list = null;
+		
+		if(!filtro.isPresent()||filtro.get() == 0) {
+			list = produtoService.findAll(PageRequest.of(currentPage -1, pageSize));
+		}else {
+			list = produtoService.findAllByCategoriaId(filtro.get(), PageRequest.of(currentPage -1, pageSize));
+		}
+		
+		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/listComprar");
+		modelAndView.addObject("list", list);
+		
 		modelAndView.addObject("categorias", categoriaService.findAll());
 		modelAndView.addObject("marcas", marcaService.findAll());
 		

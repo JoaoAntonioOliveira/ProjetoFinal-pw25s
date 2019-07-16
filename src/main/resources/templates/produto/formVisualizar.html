@@ -42,7 +42,7 @@
 	        
 	        <div class="card w-auto border-left" id="infos-produto">
 		        <div class="ml-3">
-		                <h1 th:text="${produto.nome}" th:produtoId="${produto.id}"></h1>
+		                <h1 id="nomeProduto" th:text="${produto.nome}" th:produtoId="${produto.id}"></h1>
 		                
 		                <ul class="list-inline mt-0" id="ul-rating">
 		                    <li class="list-inline-item">
@@ -52,9 +52,11 @@
 		                </ul>
 		                
 		                <div>
-		                    <h1 th:text="'R$ '+${produto.valor}"
-		                        th:prodPrice="${produto.valor}"></h1>
-		
+		                    <div class="row ml-1">
+			                    <h1 th:text="'R$ '"></h1>
+			                    <h1 id="valorProduto" th:text="${produto.valor}"
+			                        th:prodPrice="${produto.valor}"></h1>
+							</div>
 		                    <div class="form-group row">
 		                        <div class="form-group d-inline-flex col-lg-4">
 			                           <div class="input-group-prepend">

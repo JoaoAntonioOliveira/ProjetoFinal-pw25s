@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+
+import br.edu.utfpr.pb.ecommerce.Ecommerce.model.Pedido;
 
 public interface CrudService <T, ID extends Serializable>{
 
@@ -36,4 +39,5 @@ public interface CrudService <T, ID extends Serializable>{
 	void delete(Iterable<? extends T> iterable);
 	
 	void deleteAll();
+
 }

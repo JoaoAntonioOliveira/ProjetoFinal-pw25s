@@ -12,7 +12,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-8 mt-3">
-						<h2>Lista de Usuário</h2>
+						<h2>Historico de compras</h2>
 					</div>
 				</div>
 				<div class="row">
@@ -85,56 +85,7 @@
 				</nav>
 			</div>
 		</div>
-		<div class="modal modal-form" th:id="modal-form">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3>Usuario</h3>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">x</button>
-					</div><!-- modal-header -->
-					<div class="modal-body">
-						<form id="frm" name="frm"
-						method="POST" class="form-vertical"
-						th:action="@{/usuario/ajax}">							
-							<input type="hidden" id="id" name="id"/>
-							<div class="form-group">
-								<label for="nome">Nome</label> 
-								<input type="text" class="form-control" id="nome" name="nome" />
-							</div>						
-							
-							<div class="form-group">
-								<label for="username">Usuário</label> 
-								<input type="text" class="form-control" id="username" name="username" />
-							</div>						
-							
-							<div class="form-group">
-								<label for="password">Senha</label> 
-								<input type="password" class="form-control" id="password" name="password" />
-							</div>				
-							
-							<div class="form-group">
-								<label>Permissões:</label>
-								<div th:each="permissao: ${permissoes}">
-									<input type="checkbox" name="permissoes"
-										th:id="'chk_' + ${permissao.id}"
-										th:value="${permissao.id}"/>
-									<label th:text="${permissao.nome}"
-										th:for="'chk_' + ${permissao.id}"></label> 
-								</div>
-							</div>		
-							
-						</form>
-					</div><!-- modal-body -->
-					<div class="modal-footer">
-						<button type="button" class="btn" data-dismiss="modal"
-							aria-hidden="true">Cancelar</button>
-							<button type="button" class="btn btn-success"
-								onClick="save('/usuario/page')">Salvar</button>
-					</div><!-- modal-footer -->
-				</div><!-- modal-content -->
-			</div><!-- modal-dialog -->
-		</div><!-- modal-form -->
+		
 		</div>
 		<script type="text/javascript" th:src="@{/js/crud-usuario.js}"></script>
 	</section>

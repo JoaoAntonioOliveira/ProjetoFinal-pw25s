@@ -1,18 +1,18 @@
 package br.edu.utfpr.pb.ecommerce.Ecommerce.controller;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.utfpr.pb.ecommerce.Ecommerce.model.Pedido;
 import br.edu.utfpr.pb.ecommerce.Ecommerce.model.PedidoProduto;
+import br.edu.utfpr.pb.ecommerce.Ecommerce.model.Usuario;
+import br.edu.utfpr.pb.ecommerce.Ecommerce.repository.UsuarioRepository;
 import br.edu.utfpr.pb.ecommerce.Ecommerce.service.CrudService;
 import br.edu.utfpr.pb.ecommerce.Ecommerce.service.PedidoProdutoService;
 import br.edu.utfpr.pb.ecommerce.Ecommerce.service.PedidoService;
@@ -47,6 +49,9 @@ public class PedidoController extends CrudController<Pedido, Long>{
 	
 	@Autowired
     private UsuarioService usuarioService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	
 	@Override
@@ -58,7 +63,7 @@ public class PedidoController extends CrudController<Pedido, Long>{
 	@Override
 	protected String getURL() {
 		// TODO Auto-generated method stub
-		return "compra";
+		return "pedido";
 	}
 
 	@Override
@@ -93,7 +98,9 @@ public class PedidoController extends CrudController<Pedido, Long>{
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 		
-		Page<Pedido> list = this.getService().findAll(
+		Usuario usuario = usuarioRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
+		Page<Pedido> list = pedidoService.findAllByUsuarioId(usuario.getId(),
 				PageRequest.of(currentPage -1, pageSize));
 		
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/list");
@@ -112,16 +119,29 @@ public class PedidoController extends CrudController<Pedido, Long>{
 		return modelAndView;
 	}
 	
+	@GetMapping("pageProduto")
+	public ModelAndView listProduto() {
+		
+		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/carrinho");
+		
+		return modelAndView;
+	}
+
 	@PostMapping("json")
-    public ResponseEntity<?> saveJson(@RequestBody @Valid Pedido entity, BindingResult result, Model model,
+    public ResponseEntity<?> saveJson(@RequestBody Pedido entity, BindingResult result, Model model,
                                       RedirectAttributes attributes) {
 		BigDecimal totalPedido = BigDecimal.ZERO;
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         
-        entity.setUsuario(usuarioService.findOne(entity.getUsuario().getId()));
-
+        LocalDate data = LocalDate.now();
+        entity.setDataPedido(data);
+        
+        Usuario usuario = usuarioRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        
+        entity.setUsuario(usuario);
+        
         Pedido p = getService().save(entity);
 
         for (PedidoProduto pp : entity.getPedidoProduto()) {
@@ -130,11 +150,11 @@ public class PedidoController extends CrudController<Pedido, Long>{
             pp.setTotal(total);
             pp.setPedido(entity);
             
-            totalPedido.add(total);
+            totalPedido = totalPedido.add(total);
             pedidoProdutoService.save(pp);
         }
         
-        p.setTotal(totalPedido);
+        p.setTotal(totalPedido.add(entity.getFrete()));
         getService().save(p);
         return new ResponseEntity<>(HttpStatus.OK);
     }

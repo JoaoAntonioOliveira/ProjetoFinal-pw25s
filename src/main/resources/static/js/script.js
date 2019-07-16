@@ -1,9 +1,17 @@
 function comprar(idProd) {
 	var quant = $("#qtde").val();
-//    debugger;
+	var nomeProduto = $("#nomeProduto").text();
+	var valorProduto = Number($("#valorProduto").text());
+	var fotoGrande = $("#foto-grande").attr("src");
+
+//	debugger;
     var jason = new Object();
-    jason.IdProd = idProd;
-    jason.Qtde = quant;
+    jason.produto_id = idProd;
+    jason.quantidade = quant;
+    jason.produtoNome = nomeProduto;
+    jason.foto = fotoGrande;
+    jason.valorProduto= valorProduto;
+    
     var str = JSON.stringify(jason);
     
     var jsss = (localStorage.getItem("Carrinho") && JSON.parse(localStorage.getItem("Carrinho"))) || [];
@@ -11,8 +19,8 @@ function comprar(idProd) {
     if(localStorage.getItem("Carrinho")){
     	$.each(jsss, function(index){
     		console.log( jsss[index].IdProd + ": " + jsss[index].Qtde);
-    		if(jsss[index].IdProd == idProd){
-    			jsss[index].Qtde = Number(jsss[index].Qtde) + Number(quant);
+    		if(jsss[index].produto_id == idProd){
+    			jsss[index].quantidade = Number(jsss[index].quantidade) + Number(quant);
     			achou = achou + 1;
     		}
     	})

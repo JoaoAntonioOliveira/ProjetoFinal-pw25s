@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -44,6 +47,12 @@ public class Pedido implements Serializable{
 	
 	@Column(name = "total", nullable = false)
 	private BigDecimal total;
+	
+	@Column(name = "frete", nullable = false)
+	private BigDecimal frete;
+	
+	@Column(name = "formaPag", nullable = false)
+	private String formaPag;
 	
 	@ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")

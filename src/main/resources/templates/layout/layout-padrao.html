@@ -63,7 +63,7 @@
                                             <a class="dropdown-item btn-menu" th:href="@{/compra/page}" sec:authorize="hasRole('ROLE_ADMIN')">Compras Fornecedor</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="dropdown-item btn-menu" th:href="@{/marca/page}">Minhas Compras</a>
+                                            <a class="dropdown-item btn-menu" th:href="@{/pedido/page}">Minhas Compras</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="dropdown-item btn-menu" th:href="@{/produto/pageComprar}">Comprar</a>
@@ -79,8 +79,8 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <form class="form-inline ml-3" action="">
-                                <input class="form-control mr-1" type="search" placeholder="Procurar...">
+                            <form class="form-inline ml-3" th:action="@{/produto/pageNome}" method="GET" action="">
+                                <input class="form-control mr-1" name="pesquisa" type="search" placeholder="Procurar...">
                                 <button class="btn btn-outline-comprar" type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -90,9 +90,9 @@
                 </div>
                 <div class="d-flex col-lg-4">
                     <form class="form-inline carrinho" action="">
-                        <button class="btn btn-outline-comprar" type="submit">
+                        <a class="btn btn-outline-comprar" th:href="@{/pedido/pageProduto}">
                             <i class="fa fa-cart-plus">Carrinho</i>
-                        </button>
+                        </a>
                         <a th:href="@{/logout}" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i> Sair</a>
                     </form>
                 </div>
